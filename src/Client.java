@@ -1,43 +1,36 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.Scanner;
 
 /*
  * Class that serve as client
  */
 public class Client {
-	Socket socket = null;
-	PrintWriter out = null;
-	BufferedReader in = null;
-	String host = "127.0.0.1";	// also known as localhost
-	public void listenSocket(){
-	   //Create socket connection
-	   try{
-	     socket = new Socket(host, 4321);
-	     out = new PrintWriter(socket.getOutputStream(), true);
-	   } catch (UnknownHostException e) {
-	     System.out.println("Unknown host: "+host);
-	     System.exit(1);
-	   } catch  (IOException e) {
-	     System.out.println("No I/O");
-	     System.exit(1);
-	   }
-	   // Keep sending the same message to the server, every one 1 second
-	   while(true) {
-		   out.println("Hello, server! I am the client.");
-		   try {
-			Thread.sleep(1000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-	   }
-	}
-	
-	public static void main(String [] args) {
-		Client myClient = new Client();
-		myClient.listenSocket();
+	public static void main(String [] args) throws UnknownHostException, IOException {
+		String ip = "127.0.0.1";
+		int port = 4321;	
+		
+		// Create a socket for the client
+		Socket client = new Socket(ip, port);
+		System.out.println("Client has connected to server!");	
+		// Create a scanner for the keyborad input
+		Scanner keyboard = new Scanner(System.in);	
+		// Instantiate an output stream for the client
+		PrintStream out = new PrintStream(client.getOutputStream());	
+		
+		// While user is typing and pressing enter
+		while (keyboard.hasNextLine()) {
+			out.println(keyboard.nextLine());
+		}		
+		
+		// Close  stream, scanner and client connection
+		out.close();
+		keyboard.close();
+		client.close();
 	}
 }

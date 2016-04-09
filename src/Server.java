@@ -1,57 +1,48 @@
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Scanner;
 
 /*
  * Class that act as server in our application
  */
 public class Server {
-	ServerSocket server = null;
-	Socket client = null;
-	BufferedReader in = null;
-	int port = 4321;
-	public void listenSocket() {
-		// Trying to open a socket in specified port
-		try {
-			server = new ServerSocket(port);
-		} catch (IOException e) {
-			System.out.println("Could not listen from port " + port);
-			System.out.println("Is this already being used?");
-			System.exit(-1);
-		}
-		// Waiting for some client to connect
-		try {
-			System.out.println("Listening to server...");
-			client = server.accept();
-		} catch (IOException e) {
-			System.out.println("Accept failed from "+port+".");
-			System.exit(-1);			
-		}
-		// Create a input file to read client messages
-		try {
-			in = new BufferedReader( new InputStreamReader (client.getInputStream()));
-		} catch (IOException e) {
-			System.out.println("Read failed from client...");
-			System.exit(-1);
-		}	
-		// After first data arrives, do the following
-		while(true){
-			try{
-				Thread.sleep(2000);
-				String line = in.readLine();
-		        System.out.println("Message arrived: "+line);
-		  } catch (IOException e) {
-				System.out.println("Read failed from client...");
-		  } catch (InterruptedException e) {
-				e.printStackTrace();
-		  }
-	   }
+	private int port = 4321;
+	
+	public Server(int port) {
+		this.port = port;
 	}
-	public static void main(String[] args) {
-		Server myServer = new Server();
-		myServer.listenSocket();
+	
+	public void start() throws IOException {
+		// Initiating serverSocket
+		ServerSocket serverSocket = new ServerSocket(port);
+		System.out.println("Listening to port "+this.port+"...");	
+		// Main loop for new client arrival
+		while(true)
+		{
+			// Listening to possible clients
+			Socket client = serverSocket.accept();
+			// Print client IP
+			System.out.println("New connection with client " + client.getInetAddress().getHostAddress());	
+			// Create a new ClientManager for current client
+			ClientManager manager = new ClientManager(client.getInputStream(), this);
+			// And runs it in another thread
+			Thread thread = new Thread(manager);
+			thread.start();
+		}
+	}
+	
+	public void showMessage(String nextLine) {
+		System.out.println("Message from client has arrived: "+nextLine);
+	}
+	
+	public static void main(String [] args) {
+		Server server = new Server(4321);
+		try {
+			server.start();
+		} catch (IOException e) {
+			System.out.println("Not possible to start server. Is port "+server.port+" free?");
+		}
 	}
 }
 

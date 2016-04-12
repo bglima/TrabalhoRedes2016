@@ -16,18 +16,18 @@ public class Client {
 		int port = 4321;	
 		
 		// Create a socket for the client
-		Socket client = new Socket(ip, port);
+		Socket socket = new Socket(ip, port);
 		System.out.println("Client has connected to server!");
 		
 		// Create a thread to handle server messages
-		MessageReceiver messageReceiver = new MessageReceiver(client.getInputStream());
+		MessageReceiver messageReceiver = new MessageReceiver(socket.getInputStream());
 		Thread serverListener = new Thread(messageReceiver);
 		serverListener.start();
 		
 		// Create a scanner for the keyborad input
 		Scanner keyboard = new Scanner(System.in);	
 		// Instantiate an output stream for the client
-		PrintStream out = new PrintStream(client.getOutputStream());		
+		PrintStream out = new PrintStream(socket.getOutputStream());		
 		// While user is typing and pressing enter
 		while (keyboard.hasNextLine()) {
 			out.println(keyboard.nextLine());
@@ -36,6 +36,6 @@ public class Client {
 		// Close  stream, scanner and client connection
 		out.close();
 		keyboard.close();
-		client.close();
+		socket.close();
 	}
 }

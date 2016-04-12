@@ -1,6 +1,9 @@
 import java.io.IOException;
+import java.io.PrintStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 /*
@@ -8,6 +11,7 @@ import java.util.Scanner;
  */
 public class Server {
 	private int port = 4321;
+	private List <PrintStream> clientStreamList = new ArrayList <PrintStream> ();
 	
 	public Server(int port) {
 		this.port = port;
@@ -23,7 +27,10 @@ public class Server {
 			// Listening to possible clients
 			Socket client = serverSocket.accept();
 			// Print client IP
-			System.out.println("New connection with client " + client.getInetAddress().getHostAddress());	
+			System.out.println("New connection with client " + client.getInetAddress().getHostAddress());
+			// Add client output stream to list
+			PrintStream ps = new PrintStream(client.getOutputStream());
+			clientStreamList.add(ps);
 			// Create a new ClientManager for current client
 			ClientManager manager = new ClientManager(client.getInputStream(), this);
 			// And runs it in another thread
@@ -33,7 +40,12 @@ public class Server {
 	}
 	
 	public void showMessage(String nextLine) {
+		// Show message at server screen
 		System.out.println("Message from client has arrived: "+nextLine);
+		// Send message for each client in list
+		for( PrintStream clientStream : clientStreamList ) {
+			clientStream.println(nextLine);
+		}
 	}
 	
 	public static void main(String [] args) {

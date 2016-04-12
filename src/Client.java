@@ -17,12 +17,17 @@ public class Client {
 		
 		// Create a socket for the client
 		Socket client = new Socket(ip, port);
-		System.out.println("Client has connected to server!");	
+		System.out.println("Client has connected to server!");
+		
+		// Create a thread to handle server messages
+		MessageReceiver messageReceiver = new MessageReceiver(client.getInputStream());
+		Thread serverListener = new Thread(messageReceiver);
+		serverListener.start();
+		
 		// Create a scanner for the keyborad input
 		Scanner keyboard = new Scanner(System.in);	
 		// Instantiate an output stream for the client
-		PrintStream out = new PrintStream(client.getOutputStream());	
-		
+		PrintStream out = new PrintStream(client.getOutputStream());		
 		// While user is typing and pressing enter
 		while (keyboard.hasNextLine()) {
 			out.println(keyboard.nextLine());

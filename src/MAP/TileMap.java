@@ -64,6 +64,9 @@ public class TileMap {
 		}
 	}
 	
+	public int getX() { return x; };
+	public int getY() { return y; };
+	
 	public void update() {
 		
 	}
@@ -73,13 +76,16 @@ public class TileMap {
 			for(int col = 0; col < mapWidth; col++) {
 				int rc = map[row][col];
 				
-				if( rc == 1 ) {
-					g.setColor(Color.BLACK);
-				}
-				if( rc == 0 ) {
-					g.setColor(Color.WHITE);
-				}
-				g.fillRect(x + col * tileSize,  y + row * tileSize, tileSize, tileSize);		
+				int r = rc / tiles[0].length;
+				int c = rc % tiles[0].length;
+				
+				g.drawImage(
+					tiles[r][c].getImage(),
+					x + col * tileSize,
+					y + row * tileSize,
+					null
+				);
+				
 			}
 		}
 	}

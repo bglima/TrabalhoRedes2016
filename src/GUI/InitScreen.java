@@ -99,7 +99,6 @@ public class InitScreen {
 		inputText.setBounds(10, 529, 309, 27);
 		frame.getContentPane().add(inputText);
 		inputText.setColumns(10);
-
 		
 		JButton btnSend = new JButton("Send\r\n");
 		// Whenever "btnSend" is clicked, send a message to server

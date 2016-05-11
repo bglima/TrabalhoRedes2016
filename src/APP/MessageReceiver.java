@@ -9,11 +9,17 @@ public class MessageReceiver implements Runnable {
 	private InputStream inputStream;
 	private JTextArea messageArea;
 	
+	/**
+	 * @wbp.parser.entryPoint
+	 */
 	public MessageReceiver(InputStream inputStream, JTextArea messageArea) {
 		this.inputStream = inputStream;	
 		this.messageArea = messageArea;
 	}
 	
+	/**
+	 * @wbp.parser.entryPoint
+	 */
 	@Override
 	public void run() {
 		Scanner s = new Scanner(this.inputStream);

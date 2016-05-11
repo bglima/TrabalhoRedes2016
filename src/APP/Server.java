@@ -13,7 +13,7 @@ import java.util.Scanner;
 public class Server {
 	private int port = 4321;
 	private List <PrintStream> clientStreamList = new ArrayList <PrintStream> ();
-	
+	//private List <Player> 
 	public Server(int port) {
 		this.port = port;
 	}

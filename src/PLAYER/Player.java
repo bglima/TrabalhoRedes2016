@@ -27,6 +27,8 @@ public class Player {
 	private double moveSpeed;
 	private boolean keepMoving;
 	private int animationDelay;
+	private String playerName;
+	private String charSet;
 	
 	private TileMap tileMap;
 	private Animation animation;
@@ -36,11 +38,13 @@ public class Player {
 	private BufferedImage[] walkingDown;
 	private BufferedImage[][] idle;
 	
-	public Player(TileMap tm, int x, int y, int moveDirection) {
+	public Player(TileMap tm, String playerName, String charSet, int x, int y, int moveDirection) {
 		size = 32;
 		tileMap = tm;
 		keepMoving = false;
 		moveState = 0;
+		this.playerName = playerName;
+		this.charSet = charSet;
 		this.moveDirection = moveDirection;
 		this.x = x;
 		this.y = y;
@@ -57,7 +61,7 @@ public class Player {
 			idle[1] = new BufferedImage[1];
 			idle[2] = new BufferedImage[1];
 			idle[3] = new BufferedImage[1];		
-			BufferedImage sprite = ImageIO.read(new File("src/PLAYER/char1.png"));
+			BufferedImage sprite = ImageIO.read(new File("src/PLAYER/"+charSet));
 			for ( int i = 0; i < 3; i++ ) { walkingRight[i] = sprite.getSubimage( i * size, 2 * size, size, size); };
 			for ( int i = 0; i < 3; i++ ) { walkingUp[i]    = sprite.getSubimage( i * size, 3 * size, size, size); };
 			for ( int i = 0; i < 3; i++ ) { walkingLeft[i]  = sprite.getSubimage( i * size, 1 * size, size, size); };

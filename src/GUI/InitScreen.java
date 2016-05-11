@@ -71,7 +71,7 @@ public class InitScreen {
 	
 	private void connectToServer() {
 		// Instatiate a new client and try to connect it
-		client = new Client("127.0.0.1", 4321, txtName.getText(), comboBox.getSelectedItem().toString() );
+		client = new Client("127.0.0.1", 4321, txtName.getText(), comboBox.getSelectedItem().toString(), 0, 0, 1 );
 		connected = client.connectClient();
 		
 		// If connection is successfull
@@ -83,7 +83,7 @@ public class InitScreen {
 			registerReceiver(client.getSocket(), messageArea);
 			
 			// Instatiate a new game screen
-			JPanel gamePanel = new GamePanel();
+			JPanel gamePanel = new GamePanel(txtName.getText(), comboBox.getSelectedItem().toString());
 			gamePanel.setBounds(10, 10, 416, 416);
 			frame.getContentPane().add(gamePanel);
 		} else {

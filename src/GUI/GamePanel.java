@@ -35,8 +35,13 @@ public class GamePanel extends JPanel implements Runnable {
 	private Player player;
 	//private ArrayList <Player> players;
 	
-	GamePanel() {
+	private String playerName;
+	private String charSet;
+	
+	GamePanel( String playerName, String charSet) {
 		super();
+		this.playerName = playerName;
+		this.charSet = charSet;
 		setPreferredSize(new Dimension(WIDTH, HEIGHT));
 		requestFocus();
 	}
@@ -119,7 +124,7 @@ public class GamePanel extends JPanel implements Runnable {
 		
 		tileMap = new TileMap("src/MAP/testMap.txt", 32);
 		tileMap.loadTiles("src/MAP/tileSet.png");
-		player = new Player(tileMap, 16 + 64, 16 + 64, 3);
+		player = new Player(tileMap, playerName, charSet, 16 + 64, 16 + 64, 3);
 	}
 
 	private void update() {

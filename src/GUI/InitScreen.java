@@ -20,6 +20,9 @@ import APP.Client;
 import APP.MessageReceiver;
 import GUI.GamePanel;
 import java.awt.Color;
+import javax.swing.JLabel;
+import javax.swing.JComboBox;
+import java.awt.Button;
 
 public class InitScreen {
 	private JFrame frame;
@@ -27,6 +30,7 @@ public class InitScreen {
 	private JTextField inputText;
 	private Client client;
 	private boolean connected = false;
+	private JTextField txtName;
 
 	/**
 	 * Launch the application.
@@ -71,7 +75,7 @@ public class InitScreen {
 	private void initialize() {
 		frame = new JFrame();
 		frame.setResizable(false);
-		frame.setBounds(100, 100, 441, 599);
+		frame.setBounds(100, 100, 441, 648);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
@@ -116,5 +120,27 @@ public class InitScreen {
 		JPanel gamePanel = new GamePanel();
 		gamePanel.setBounds(10, 10, 416, 416);
 		frame.getContentPane().add(gamePanel);
+		
+		txtName = new JTextField();
+		txtName.setBounds(54, 569, 121, 22);
+		frame.getContentPane().add(txtName);
+		txtName.setColumns(10);
+		
+		JLabel lblPlayerName = new JLabel("Name:");
+		lblPlayerName.setBounds(12, 569, 44, 23);
+		frame.getContentPane().add(lblPlayerName);
+		
+		String[] comboList = {"char1.png", "char2.png", "char3.png", "char4.png", "char5.png"};
+		JComboBox comboBox = new JComboBox(comboList);
+		comboBox.setBounds(230, 569, 89, 22);
+		frame.getContentPane().add(comboBox);
+		
+		JButton btnConnect = new JButton("Connect");
+		btnConnect.setBounds(331, 567, 89, 24);
+		frame.getContentPane().add(btnConnect);
+		
+		JLabel lblHero = new JLabel("Hero:");
+		lblHero.setBounds(187, 572, 32, 16);
+		frame.getContentPane().add(lblHero);
 	}
 }

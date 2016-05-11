@@ -53,8 +53,6 @@ public class InitScreen {
 	 * Create the application.
 	 */
 	public InitScreen() {
-		client = new Client("127.0.0.1", 4321 );
-		connected = client.connectClient();
 		initialize();
 	}
 	
@@ -66,6 +64,28 @@ public class InitScreen {
 			serverListener.start();
 		} catch (IOException e) {
 			System.out.println("IO Error: " + e);
+		}
+	}
+	
+	private void connectToServer() {
+		// Instatiate a new client and try to connect it
+		client = new Client("127.0.0.1", 4321 );
+		connected = client.connectClient();
+		
+		// If connection is successfull
+		if( connected ) {
+			// Tell user
+			messageArea.append("Client connected successfuly\n");
+			// Register the "messageArea" element to our receiver element, 
+			//  so that it can show messages that arrive from server
+			registerReceiver(client.getSocket(), messageArea);
+			
+			// Instatiate a new game screen
+			JPanel gamePanel = new GamePanel();
+			gamePanel.setBounds(10, 10, 416, 416);
+			frame.getContentPane().add(gamePanel);
+		} else {
+			messageArea.append("Error in connection. Is the server running?\n");
 		}
 	}
 
@@ -85,13 +105,7 @@ public class InitScreen {
 		messageArea.setEditable(false);
 		messageArea.setBounds(10, 433, 410, 87);
 		messageArea.append("Initializing...\n");
-		if( connected ) {
-			messageArea.append("Client connected successfuly\n");
-		} else {
-			messageArea.append("Error in connection. Is the server running?\n");
-		}
-		// Register the "messageArea" element to receiver
-		registerReceiver(client.getSocket(), messageArea);
+
 		frame.getContentPane().add(messageArea);
 		messageArea.setFocusable(false);
 		messageArea.setColumns(10);
@@ -103,6 +117,7 @@ public class InitScreen {
 		inputText.setBounds(10, 529, 309, 27);
 		frame.getContentPane().add(inputText);
 		inputText.setColumns(10);
+		inputText.setEnabled(false);
 		
 		JButton btnSend = new JButton("Send\r\n");
 		// Whenever "btnSend" is clicked, send a message to server
@@ -115,11 +130,10 @@ public class InitScreen {
 			}
 		});
 		btnSend.setBounds(331, 533, 89, 23);
+		btnSend.setEnabled(false);
 		frame.getContentPane().add(btnSend);
 		
-		JPanel gamePanel = new GamePanel();
-		gamePanel.setBounds(10, 10, 416, 416);
-		frame.getContentPane().add(gamePanel);
+		
 		
 		txtName = new JTextField();
 		txtName.setBounds(54, 569, 121, 22);
@@ -138,6 +152,11 @@ public class InitScreen {
 		JButton btnConnect = new JButton("Connect");
 		btnConnect.setBounds(331, 567, 89, 24);
 		frame.getContentPane().add(btnConnect);
+		btnConnect.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				connectToServer();
+			}
+		});
 		
 		JLabel lblHero = new JLabel("Hero:");
 		lblHero.setBounds(187, 572, 32, 16);

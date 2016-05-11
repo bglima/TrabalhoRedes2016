@@ -115,8 +115,8 @@ public class GamePanel extends JPanel implements Runnable {
 		image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
 		g = (Graphics2D) image.getGraphics();
 		
-		tileMap = new TileMap("E:/ThreeJSWorkspace/TrabalhoRedes/src/MAP/testMap.txt", 32);
-		tileMap.loadTiles("E:/ThreeJSWorkspace/TrabalhoRedes/src/MAP/tileSet.png");
+		tileMap = new TileMap("src/MAP/testMap.txt", 32);
+		tileMap.loadTiles("src/MAP/tileSet.png");
 		player = new Player(tileMap);
 		player.setX(16);
 		player.setY(16);

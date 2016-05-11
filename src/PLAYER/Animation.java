@@ -9,7 +9,7 @@ public class Animation {
 	private long startTime;
 	private long delay;
 	
-	public Animation(){};
+	public Animation(){ startTime = System.nanoTime(); };
 	
 	public void setFrames(BufferedImage[] images) {
 		frames = images;
@@ -21,7 +21,6 @@ public class Animation {
 	
 	public void update() {
 		if(delay == -1) return;
-		
 		long elapsed = (System.nanoTime() - startTime) / 1000000;
 		if( elapsed > delay ) {
 			currentFrame++;

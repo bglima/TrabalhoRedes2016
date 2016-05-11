@@ -119,9 +119,7 @@ public class GamePanel extends JPanel implements Runnable {
 		
 		tileMap = new TileMap("src/MAP/testMap.txt", 32);
 		tileMap.loadTiles("src/MAP/tileSet.png");
-		player = new Player(tileMap);
-		player.setX(16);
-		player.setY(16);
+		player = new Player(tileMap, 16 + 64, 16 + 64, 3);
 	}
 
 	private void update() {

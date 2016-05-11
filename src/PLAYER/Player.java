@@ -36,12 +36,14 @@ public class Player {
 	private BufferedImage[] walkingDown;
 	private BufferedImage[][] idle;
 	
-	public Player(TileMap tm) {
+	public Player(TileMap tm, int x, int y, int moveDirection) {
 		size = 32;
 		tileMap = tm;
 		keepMoving = false;
 		moveState = 0;
-		moveDirection = 1;
+		this.moveDirection = moveDirection;
+		this.x = x;
+		this.y = y;
 		moveSpeed = 5;
 		animationDelay = 200;
 		

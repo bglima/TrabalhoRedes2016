@@ -15,13 +15,19 @@ public class Client {
 	private Socket socket;
 	private String name;
 	private String hero;
+	private int x;
+	private int y;
+	private int moveDirection;
 	private MessageReceiver messageReceiver;
 	private PrintStream out;	
-	public Client(String ip, int port, String name, String hero){
+	public Client(String ip, int port, String name, String hero, int x, int y, int moveDirection){
 		this.ip = ip;
 		this.port = port;
 		this.name = name;
 		this.hero = hero;
+		this.x = x;
+		this.y = y;
+		this.moveDirection = moveDirection;
 	}	
 	// Estabilish connection with server
 	public boolean connectClient() {

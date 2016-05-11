@@ -11,10 +11,10 @@ import MAP.TileMap;
 
 public class Player {
 	private int size;
-	private double x;
-	private double y;
-	private double targetX;
-	private double targetY;	
+	private int x;
+	private int y;
+	private int targetX;
+	private int targetY;	
 	/*
 		moveState:
 		0 = not moving
@@ -24,7 +24,7 @@ public class Player {
 		4 = down    */
 	private int moveState; 
 	private int moveDirection;
-	private double moveSpeed;
+	private int moveSpeed;
 	private boolean keepMoving;
 	private int animationDelay;
 	private String playerName;
@@ -38,6 +38,16 @@ public class Player {
 	private BufferedImage[] walkingDown;
 	private BufferedImage[][] idle;
 	
+	public int getSize() {return size;}
+	public int getX() {return x;}
+	public int getY() {return y;}
+	public int getTargetX() {return targetX;}
+	public int getTargetY() {return targetY;}
+	public String getPlayerName() {return playerName;}
+	public String getCharSet() {return charSet;}
+	public int getMoveDirection() {return moveDirection;}
+	
+	
 	public Player(TileMap tm, String playerName, String charSet, int x, int y, int moveDirection) {
 		size = 32;
 		tileMap = tm;
@@ -48,6 +58,8 @@ public class Player {
 		this.moveDirection = moveDirection;
 		this.x = x;
 		this.y = y;
+		this.targetX = x;
+		this.targetY = y;
 		moveSpeed = 5;
 		animationDelay = 200;
 		
@@ -79,6 +91,7 @@ public class Player {
 	
 	public void setX(int i) { x = i; };
 	public void setY(int i) { y = i; };
+	public void setMoveDirection(int i) { moveDirection = i; }
 	
 	public void moveRight() { 
 		if( moveState == 0) {

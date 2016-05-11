@@ -58,10 +58,10 @@ public class InitScreen {
 		initialize();
 	}
 	
-	public void registerReceiver(Socket socket, JTextArea messageArea){
+	public void registerReceiver(Socket socket, JTextArea messageArea, GamePanel gamePanel){
 		try {
 			// Create a message receiver from the same ip
-			MessageReceiver messageReceiver = new MessageReceiver(socket.getInputStream(), messageArea);
+			MessageReceiver messageReceiver = new MessageReceiver(socket.getInputStream(), messageArea, gamePanel);
 			Thread serverListener = new Thread(messageReceiver);
 			serverListener.start();
 		} catch (IOException e) {
@@ -71,21 +71,22 @@ public class InitScreen {
 	
 	private void connectToServer() {
 		// Instatiate a new client and try to connect it
-		client = new Client("127.0.0.1", 4321, txtName.getText(), comboBox.getSelectedItem().toString(), 0, 0, 1 );
+		client = new Client("127.0.0.1", 4321);
 		connected = client.connectClient();
 		
 		// If connection is successfull
 		if( connected ) {
 			// Tell user
 			messageArea.append("Client connected successfuly\n");
-			// Register the "messageArea" element to our receiver element, 
-			//  so that it can show messages that arrive from server
-			registerReceiver(client.getSocket(), messageArea);
 			
 			// Instatiate a new game screen
-			JPanel gamePanel = new GamePanel(txtName.getText(), comboBox.getSelectedItem().toString());
+			JPanel gamePanel = new GamePanel(txtName.getText(), comboBox.getSelectedItem().toString(), client);
 			gamePanel.setBounds(10, 10, 416, 416);
 			frame.getContentPane().add(gamePanel);
+			
+			// Register the "messageArea" element to our receiver element, 
+			//  so that it can show messages that arrive from server
+			registerReceiver(client.getSocket(), messageArea, (GamePanel)(gamePanel));
 		} else {
 			messageArea.append("Error in connection. Is the server running?\n");
 		}
@@ -154,6 +155,10 @@ public class InitScreen {
 		frame.getContentPane().add(btnConnect);
 		btnConnect.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				if( txtName.getText().equals("") ) {
+					System.out.println("Please, choose a valid name");
+					return;
+				}
 				connectToServer();
 				// if connection was successful
 				if( connected ) {

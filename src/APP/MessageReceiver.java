@@ -43,7 +43,6 @@ public class MessageReceiver implements Runnable {
 			} 
 			// Otherwise, it's a control message
 			else {
-				System.out.println(nextLine);
 				switch( tokens[1] ) {
 					case "addPlayer":
 						Player player = new Player(gamePanel.getTileMap(), tokens[2], tokens[3], Integer.parseInt(tokens[4]), Integer.parseInt(tokens[5]), Integer.parseInt(tokens[6]));

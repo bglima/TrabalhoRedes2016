@@ -48,7 +48,6 @@ public class Server {
 	
 	public void addPlayer(String playerName, String charSet, int x, int y, int moveDirection, PrintStream playerStream) {
 		Player newPlayer = new Player(null, playerName, charSet, x, y, moveDirection);
-		System.out.println(moveDirection);
 		playersMap.put(playerName, newPlayer);
 		streamMap.put(playerName, playerStream);
 		sendPlayerList(playerName);

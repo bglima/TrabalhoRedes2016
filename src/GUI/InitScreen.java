@@ -5,6 +5,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.ComboBoxEditor;
 import javax.swing.JButton;
 import javax.swing.JEditorPane;
 import java.awt.event.ActionListener;
@@ -31,6 +32,7 @@ public class InitScreen {
 	private Client client;
 	private boolean connected = false;
 	private JTextField txtName;
+	private JComboBox comboBox;
 
 	/**
 	 * Launch the application.
@@ -69,7 +71,7 @@ public class InitScreen {
 	
 	private void connectToServer() {
 		// Instatiate a new client and try to connect it
-		client = new Client("127.0.0.1", 4321 );
+		client = new Client("127.0.0.1", 4321, txtName.getText(), comboBox.getSelectedItem().toString() );
 		connected = client.connectClient();
 		
 		// If connection is successfull
@@ -132,9 +134,7 @@ public class InitScreen {
 		btnSend.setBounds(331, 533, 89, 23);
 		btnSend.setEnabled(false);
 		frame.getContentPane().add(btnSend);
-		
-		
-		
+
 		txtName = new JTextField();
 		txtName.setBounds(54, 569, 121, 22);
 		frame.getContentPane().add(txtName);
@@ -145,7 +145,7 @@ public class InitScreen {
 		frame.getContentPane().add(lblPlayerName);
 		
 		String[] comboList = {"char1.png", "char2.png", "char3.png", "char4.png", "char5.png"};
-		JComboBox comboBox = new JComboBox(comboList);
+		comboBox = new JComboBox(comboList);
 		comboBox.setBounds(230, 569, 89, 22);
 		frame.getContentPane().add(comboBox);
 		
@@ -155,6 +155,16 @@ public class InitScreen {
 		btnConnect.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				connectToServer();
+				// if connection was successful
+				if( connected ) {
+					// Disable unconnected state elements
+					txtName.setEnabled(false);
+					comboBox.setEnabled(false);
+					btnConnect.setEnabled(false);
+					// Enable connected state elements
+					inputText.setEnabled(true);
+					btnSend.setEnabled(true);
+				}
 			}
 		});
 		

@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -32,6 +33,7 @@ public class GamePanel extends JPanel implements Runnable {
 	
 	private TileMap tileMap;
 	private Player player;
+	//private ArrayList <Player> players;
 	
 	GamePanel() {
 		super();
